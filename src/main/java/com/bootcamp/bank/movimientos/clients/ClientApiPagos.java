@@ -28,4 +28,11 @@ public class ClientApiPagos {
                 .retrieve()
                 .bodyToFlux(Pago.class);
     }
+
+    public Flux<Pago> getMovsPagosPorIdClienteAndTarjetaCredito(String idCliente, String numeroTarjetaCredito) {
+        return webClient.get()
+                .uri("/creditos/pago/movimiento/cliente/" + idCliente+"/credito/"+numeroTarjetaCredito)
+                .retrieve()
+                .bodyToFlux(Pago.class);
+    }
 }

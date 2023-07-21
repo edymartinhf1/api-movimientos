@@ -27,4 +27,14 @@ public class ClientApiOperaciones {
                 .retrieve()
                 .bodyToFlux(OperacionCta.class);
     }
+
+    public Flux<OperacionCta> getMovsOperacionesPorIdClienteAndTarjetaDebito(String idCliente,String numeroTarjetaDebito) {
+        return webClient.get()
+                .uri("/operaciones/cuentas/movimiento/cliente/" + idCliente+"/debito/"+numeroTarjetaDebito)
+                .retrieve()
+                .bodyToFlux(OperacionCta.class);
+    }
+
+
+
 }

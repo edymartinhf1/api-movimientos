@@ -28,4 +28,11 @@ public class ClientApiConsumos {
                 .bodyToFlux(CargoConsumo.class);
     }
 
+    public Flux<CargoConsumo> getMovsConsumosPorIdClienteAndTarjetaCredito(String idCliente, String numeroTarjetaCredito) {
+        return webClient.get()
+                .uri("/creditos/tarjetas/cargos/movimiento/cliente/" + idCliente+"/credito/"+numeroTarjetaCredito)
+                .retrieve()
+                .bodyToFlux(CargoConsumo.class);
+    }
+
 }

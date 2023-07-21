@@ -27,34 +27,35 @@ public class MovimientoServiceImpl implements MovimientoService {
 
     @Override
     public Mono<Movimiento> getMovimientos(String id) {
-        return clientApiClientes.getClientes(id)
+        return clientApiClientes.getCliente(id)
                 .switchIfEmpty(Mono.error(()->new BusinessException("No existe cliente con el id "+id))).
-                flatMapMany(c-> {
+                flatMapMany(cliente-> {
+                    log.info("cliente = "+cliente.toString());
                     return clientApiPagos.getPagos(id);
                 })
                 .collectList()
-                .map(l-> {
+                .map(listaPagos-> {
                     Movimiento mov=new Movimiento();
-                    mov.setPagosTarjetaCredito(l);
+                    mov.setPagosTarjetaCredito(listaPagos);
                     return mov;
-                }).flatMap(n -> {
+                }).flatMap(movs -> {
                     return clientApiConsumos.getConsumos(id)
                             .collectList()
-                            .map(e->{
+                            .map(listaconsumos->{
                                 Movimiento mov=new Movimiento();
-                                mov.setPagosTarjetaCredito(n.getPagosTarjetaCredito());
-                                mov.setCargosConsumoTarjetaCredito(e);
+                                mov.setPagosTarjetaCredito(movs.getPagosTarjetaCredito());
+                                mov.setCargosConsumoTarjetaCredito(listaconsumos);
                                 return mov;
                             });
-                }).flatMap(c->{
+                }).flatMap(movimiento ->{
                     return clientApiOperaciones.getOperaciones(id)
                             .collectList()
-                            .map(e->{
+                            .map(operaciones->{
                                 Movimiento mov=new Movimiento();
                                 mov.setIdCliente(id);
-                                mov.setPagosTarjetaCredito(c.getPagosTarjetaCredito());
-                                mov.setCargosConsumoTarjetaCredito(c.getCargosConsumoTarjetaCredito());
-                                mov.setOperacionesCuentasCorriente(e);
+                                mov.setPagosTarjetaCredito(movimiento.getPagosTarjetaCredito());
+                                mov.setCargosConsumoTarjetaCredito(movimiento.getCargosConsumoTarjetaCredito());
+                                mov.setOperacionesCuentasCorriente(operaciones);
                                 return mov;
                             });
                 });
