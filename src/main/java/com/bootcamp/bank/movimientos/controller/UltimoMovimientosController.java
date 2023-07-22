@@ -1,6 +1,7 @@
 package com.bootcamp.bank.movimientos.controller;
 
-import com.bootcamp.bank.movimientos.model.ReporteUltimoMovimiento;
+import com.bootcamp.bank.movimientos.model.reports.ReportePrevioUltimoMovimiento;
+import com.bootcamp.bank.movimientos.model.reports.ReporteUltimoMovimiento;
 import com.bootcamp.bank.movimientos.service.UltimoMovimientosService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
