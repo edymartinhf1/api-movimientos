@@ -2,7 +2,6 @@ package com.bootcamp.bank.movimientos.model;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
 
 @Data
 public class CreditoProducto {
